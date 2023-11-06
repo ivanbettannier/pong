@@ -64,7 +64,7 @@ class Pong:
             self.check_collisions(self.controler1)
             self.check_collisions(self.controler2)
             # self.automat_controler(self.controler1)
-            self.automat_controler(self.controler2)
+            # self.automat_controler(self.controler2)
             self._self_update_screen()
             
             
@@ -73,8 +73,10 @@ class Pong:
     def _check_events(self):
         """Monitor keyboard events"""
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
             # Moving controler
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 self._check_keydown_controler_event(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_controler_event(event)
@@ -156,14 +158,14 @@ class Pong:
                 self.stats.increment_score = True
                 self.ball.velocity[0] = self.settings.ball_initial_speed
                 self.ball.velocity[1] = self.settings.ball_initial_speed
-                self.stats.count_point(self.stats.player1_point)
+                self.stats.count_point(player1_point)
                 
             
             if player2_point:
-                self.stats.count_point()
+                self.stats.increment_score = True
                 self.ball.velocity[0] = -self.settings.ball_initial_speed
                 self.ball.velocity[1] = self.settings.ball_initial_speed
-                # self.game_stats.point1 += 2
+                self.stats.count_point(player2_point)
         
 
     

@@ -19,7 +19,7 @@ class Game_stats:
 
     def count_point(self, player_point):
         if self.increment_score:
-            self.player_point += 1
+            self.player1_point += 1
         self.increment_score = False
 
     
