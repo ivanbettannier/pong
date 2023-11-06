@@ -50,6 +50,8 @@ class Pong:
 
         # Creat score board
         self.scoreboard = Scoreboard(self)
+
+        self.clock = pygame.time.Clock()    
     
 
         
@@ -66,6 +68,7 @@ class Pong:
             # self.automat_controler(self.controler1)
             # self.automat_controler(self.controler2)
             self._self_update_screen()
+            self.clock.tick(60)
             
             
             
