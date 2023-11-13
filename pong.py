@@ -87,18 +87,12 @@ class Pong:
         #    ball_name = f'ball{i}'
         #    setattr(self, ball_name, Ball_bonus(self))
 
-
-  
-        
-
-    def run_game(self):
-        """Begin the principal ligne of the game."""
-        while True:
-            self._check_events()
+    
+    def pygame_step(self):
             self.controler1.update()
             self.controler2.update()
             self.ball.update()
-            self.check_collisions(self.controler1)
+            got_collision = self.check_collisions(self.controler1)
             self.check_collisions(self.controler2)
             self.bonus.bonus_triggering(self.ball, self.controler1, self.controler2)
             self.bonus2.bonus_triggering(self.ball, self.controler1, self.controler2)
@@ -108,6 +102,24 @@ class Pong:
             if self.settings.automat_controler == "True":
                 self.automat_controler(self.controler2)
             self._self_update_screen()
+            return got_collision
+    
+    def step(self,action):
+        if action == 0:
+            self.controler1.moving_down = False
+            self.controler1.moving_up = True
+        
+        if action == 1:
+            self.controler1.moving_up = False
+            self.controler1.moving_down = True
+            
+        self.pygame_step()
+
+    def run_game(self):
+        """Begin the principal ligne of the game."""
+        while True:
+            self._check_events()
+            self.pygame_step()
             self.clock.tick(60)
             if self._check_events():
                 self.game_state_manager.set_state("menu_principal")
@@ -130,6 +142,7 @@ class Pong:
                 self.screen.fill("Black")
                 self.game_state_manager.set_state("menu_principal")
                 return "menu" 
+
             
             
     def _check_events(self):
