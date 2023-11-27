@@ -7,6 +7,7 @@ from ball import Ball
 from controler import Controler
 from play_area import Play_area
 from scoreboard import Scoreboard
+import math
 
 class Pong:
     """
@@ -65,8 +66,9 @@ class Pong:
             self.ball.update()
             self.check_collisions(self.controler1)
             self.check_collisions(self.controler2)
+            #Pour Laisser l'IA
             # self.automat_controler(self.controler1)
-            # self.automat_controler(self.controler2)
+            self.automat_controler(self.controler2)
             self._self_update_screen()
             self.clock.tick(60)
             
@@ -131,10 +133,42 @@ class Pong:
         elif event.key == pygame.K_x:
             self.controler2.moving_down = False
     
-    def check_collisions(self,controler):
-        """Colision detection beetween the ball and a controler"""
+    ### PARTIE ARTHUR 
+    #def check_collisions(self,controler):
+    #    """Colision detection beetween the ball and a controler"""
+    #    if self.ball.rect.colliderect(controler.rect):
+    #        self.ball.velocity[0] = -self.ball.velocity[0]
+      
+    ### PARTIE CAMILLE 1    
+    #def check_collisions(self, controler):
+    #    """Détection de collision entre la balle et un contrôleur"""
+    #    if self.ball.rect.colliderect(controler.rect):
+    #        # Calcul de l'angle d'incidence en radians
+    #        angle_incidence = math.atan2(self.ball.rect.centery - controler.rect.centery,
+    #                                     self.ball.rect.centerx - controler.rect.centerx)
+    #        
+    #        # Inversion de la composante horizontale de la vitesse de la balle
+    #        self.ball.velocity[0] = -self.ball.velocity[0]
+    #        
+    #        # Calcul de la nouvelle composante verticale de la vitesse en fonction de l'angle d'incidence
+    #        self.ball.velocity[1] = self.settings.ball_initial_speed * math.sin(angle_incidence)
+    
+    def check_collisions(self, controler):
+        """Détection de collision entre la balle et un contrôleur"""
         if self.ball.rect.colliderect(controler.rect):
+            # Calcul de l'angle d'incidence en radians
+            angle_incidence = math.atan2(self.ball.rect.centery - controler.rect.centery,
+                                         self.ball.rect.centerx - controler.rect.centerx)
+            
+            # Si la balle touche le centre du contrôleur, imposer un angle de retour de 15 degrés
+            if controler.rect.collidepoint(self.ball.rect.center):
+                angle_incidence = math.radians(35)
+            
+            # Inversion de la composante horizontale de la vitesse de la balle
             self.ball.velocity[0] = -self.ball.velocity[0]
+            
+            # Calcul de la nouvelle composante verticale de la vitesse en fonction de l'angle d'incidence
+            self.ball.velocity[1] = self.settings.ball_initial_speed * math.sin(angle_incidence)
 
     def automat_controler(self, controler):
         """Setting invinsible adversary"""

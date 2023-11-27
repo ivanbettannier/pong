@@ -19,6 +19,7 @@ class Controler:
         # creation of controler surface
         self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         pygame.draw.rect(self.image, self.color, (0, 0, self.width, self.height))
+        
         self.rect = self.image.get_rect()
        
         self.rect = self.image.get_rect()
@@ -39,5 +40,5 @@ class Controler:
     def blitme(self):
         """Draw ball to its current location"""
         self.screen.blit(self.image, self.rect)
-
-    
+        
+   
