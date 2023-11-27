@@ -161,13 +161,13 @@ class Pong:
                 self.stats.increment_score = True
                 self.ball.velocity[0] = self.settings.ball_initial_speed
                 self.ball.velocity[1] = self.settings.ball_initial_speed
-                self.stats.count_point(1)
+                self.stats.count_point(2)
                             
             if player2_point:
                 self.stats.increment_score = True
                 self.ball.velocity[0] = -self.settings.ball_initial_speed
                 self.ball.velocity[1] = self.settings.ball_initial_speed
-                self.stats.count_point(2)
+                self.stats.count_point(1)
         
 
     
