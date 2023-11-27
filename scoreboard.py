@@ -21,7 +21,7 @@ class Scoreboard:
         self.text_color = self.settings.score_text_color
         self.font = self.settings.score_font
 
-        # Initiale score picture
+        # Initial score picture
        
 
     def blitme(self):
