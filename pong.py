@@ -217,6 +217,8 @@ class Pong:
         if event.key == pygame.K_q:
             sys.exit()
 
+
+
     def _check_keyup_controler_event(self, event):
         """Stop moving controler if key is up"""
         # Controler 1
