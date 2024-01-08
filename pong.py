@@ -5,9 +5,13 @@ from settings import Settings
 from game_stats import Game_stats
 from ball import Ball
 from controler import Controler
+from portal import Portal
 from play_area import Play_area
 from scoreboard import Scoreboard
+from bonus import Bonus
+import random
 import math
+import numpy as np
 
 class Pong:
     """
@@ -30,7 +34,9 @@ class Pong:
 
         # Create playing area
         self.play_area = Play_area(self)
-    
+
+        # Création du portail
+        self.portal = Portal(self)    
 
         # Create the ball
         self.ball = Ball(self)
@@ -53,6 +59,13 @@ class Pong:
         self.scoreboard = Scoreboard(self)
 
         self.clock = pygame.time.Clock()    
+
+        # Creat bonus
+        self.bonus = Bonus(self)
+        self.bonus_appearence = 0
+        self.bonus_appearence_time = random.randint(100, 200)
+        self.bonus_position = [random.randint(self.settings.play_area_width/2, self.settings.play_area_width), random.randint(self.settings.play_area_height/2, self.settings.play_area_height/2)]
+
     
 
         
@@ -66,6 +79,7 @@ class Pong:
             self.ball.update()
             self.check_collisions(self.controler1)
             self.check_collisions(self.controler2)
+            self.bonus_triggering(self.bonus)
             #Pour Laisser l'IA
             # self.automat_controler(self.controler1)
             self.automat_controler(self.controler2)
@@ -92,10 +106,12 @@ class Pong:
         """Update the screen images and go to the next screen"""
         self.screen.fill(self.bg_color)
         self.play_area.blitme()
+        self.portal.blitme()
         self.ball.blitme()
         self.scoreboard.blitme()
         self.controler1.blitme()
         self.controler2.blitme()
+        self.bonus_appear()
         self.scoreboard.prep_score() 
         self.exchange_end()
         
@@ -192,24 +208,43 @@ class Pong:
             self.ball.moving = False
             self.stats.increment_score = False
             if player1_point:
+                self.bonus_appearence = 0
+                self.bonus_appearence_time = random.randint(100, 200)
+                self.bonus_x_position = random.randint(0,self.settings.play_area_positionx)
                 self.stats.increment_score = True
                 self.ball.velocity[0] = self.settings.ball_initial_speed
                 self.ball.velocity[1] = self.settings.ball_initial_speed
                 self.stats.count_point(2)
                             
             if player2_point:
+                self.bonus_appearence = 0
+                self.bonus_appearence_time = random.randint(100, 200)
+                self.bonus_x_position = random.randint(0,self.settings.play_area_positionx)
                 self.stats.increment_score = True
                 self.ball.velocity[0] = -self.settings.ball_initial_speed
                 self.ball.velocity[1] = self.settings.ball_initial_speed
                 self.stats.count_point(1)
-        
-
-    
-
-    
-        
 
         pygame.display.flip()
+
+    def bonus_appear(self):
+        bonus_color = (0, 140, 0)
+        bonus_position = self.bonus_position
+        if self.ball.moving == True:
+            self.bonus_appearence += 1
+        if self.bonus_appearence >= self.bonus_appearence_time:   
+            self.bonus = Bonus(self, bonus_color, bonus_position)
+            self.bonus.blitme()  # Return the created bonus instance
+        
+    def bonus_triggering(self, bonus):
+        """Colision detection beetween the ball and the bonus"""
+        if self.ball.rect.colliderect(bonus.rect):
+            #random_red = random.randint(0, 255)
+            #random_green = random.randint(0, 255)
+            #random_blue = random.randint(0, 255)
+            #self.ball.change_color((random_red, random_green, random_blue))
+            #self.ball.blitme()
+            self.ball.velocity[0] = -self.ball.velocity[0]
 
 
 if __name__ == '__main__':
