@@ -26,7 +26,7 @@ class PongEnv(gym.Env):
 
         reward = player1_point - player2_point
 
-        terminated = (player1_point >= 5) or (player2_point >= 5)
+        terminated = (player1_point >= 1) or (player2_point >= 1)
         info = None
 
         obs = self._get_obs()
