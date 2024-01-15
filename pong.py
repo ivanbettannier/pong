@@ -239,11 +239,11 @@ class Pong:
     def bonus_triggering(self, bonus):
         """Colision detection beetween the ball and the bonus"""
         if self.ball.rect.colliderect(bonus.rect):
-            #random_red = random.randint(0, 255)
-            #random_green = random.randint(0, 255)
-            #random_blue = random.randint(0, 255)
-            #self.ball.change_color((random_red, random_green, random_blue))
-            #self.ball.blitme()
+            random_red = random.randint(0, 255)
+            random_green = random.randint(0, 255)
+            random_blue = random.randint(0, 255)
+            self.ball.change_color((random_red, random_green, random_blue))
+            self.ball.blitme()
             self.ball.velocity[0] = -self.ball.velocity[0]
 
 

@@ -24,12 +24,12 @@ class Portal:
     def randomize_position(self):
         """Place le portail à des coordonnées aléatoires"""
         
-        self.rect.left = random.randint(self.settings.play_area_positionx, self.settings.play_area_positionx + self.settings.play_area_width - self.width)
+        self.rect.left = random.randint(self.settings.play_area_positionx + 50, self.settings.play_area_positionx + self.settings.play_area_width - self.width - 50)
         
         self.rect.top = random.randint(self.settings.play_area_positiony + self.settings.play_area_border_larger, self.settings.screen_height - self.settings.play_area_positiony - self.height - self.settings.play_area_border_larger)
         
         
-        self.rect.center = self.screen_rect.center
+        #self.rect.center = self.screen_rect.center
 
     def blitme(self):
         """Dessine le portail"""
@@ -42,5 +42,4 @@ class Portal:
         while self.rect.colliderect(ball.rect):
             
             #ball.rect.x = random.randint(self.settings.play_area_positionx, self.settings.play_area_positionx + self.settings.play_area_width - ball.radius * 2)
-            
             ball.rect.y = random.randint(self.settings.play_area_positiony + self.settings.play_area_border_larger, self.settings.screen_height - self.settings.play_area_positiony - ball.radius * 2 - self.settings.play_area_border_larger) 
