@@ -8,14 +8,13 @@ class PongEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 30}
     def __init__(self, render_mode=None):
         self.pong_game = pong.Pong()
-        #self.pong_game.ball.moving = True
+        self.pong_game.ball.moving = True
         width = self.pong_game.play_area.settings.play_area_width
         height = self.pong_game.play_area.settings.play_area_height
 
         self.observation_space = Box(low=0, high=255, shape=(width, height, 3), dtype=np.uint8)
-                                                                
+        self.count =0                                 
         self.action_space = Discrete(2)
-        self.count = 0
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
         self.render_mode = render_mode
@@ -30,7 +29,7 @@ class PongEnv(gym.Env):
         reward = player1_point - player2_point
 
         #terminated = (player1_point >= 1) or (player2_point >= 1)
-        terminated = (self.count > 100)
+        terminated = (self.count > 200)
         if terminated:
             print('terminated')
         info = None
