@@ -4,7 +4,7 @@ from settings import Settings
 class Button:
 	"""Class to use button in the game"""
 
-	def __init__(self, image, font, pos, text_input, base_color, hovering_color):
+	def __init__(self, image, font, pos, anchors, text_input, base_color, hovering_color):
 		"""Initialize the settings parameters"""
 
 		pygame.init()
@@ -21,13 +21,17 @@ class Button:
 		self.base_color, self.hovering_color = base_color, hovering_color
 
 		# Position of the button
-		self.x_pos = pos[0]
-		self.y_pos = pos[1]
+		self.pos = pos
+		self.x_pos, self.y_pos = pos
+
 
 		self.text_input = text_input
 		self.text = self.font.render(self.text_input, True, self.base_color)
 		self.text_rect = self.text.get_rect(center=(self.x_pos, self.y_pos))
 
+		#Default anchors 
+		self.anchors = set(anchors)
+		
 		# Case where we just want the text as the button
 		if self.image is None:
 			self.image = self.text
@@ -55,3 +59,23 @@ class Button:
 			self.text = self.font.render(self.text_input, True, self.hovering_color)
 		else:
 			self.text = self.font.render(self.text_input, True, self.base_color)
+	def apply_anchors(self, screen_width, screen_height):
+		if 'left' in self.anchors:
+			self.x_pos = 0
+		elif 'right' in self.anchors:
+			self.x_pos = screen_width - self.text_rect.width
+		elif 'center' in self.anchors:
+			self.x_pos = (screen_width - self.text_rect.width) // 2
+
+		if 'top' in self.anchors:
+			self.y_pos = 0
+		elif 'bottom' in self.anchors:
+			self.y_pos = screen_height - self.text_rect.height
+		elif 'center' in self.anchors:
+			self.y_pos = (screen_height - self.text_rect.height) // 2
+
+		self.x_pos += self.pos[0]
+		self.y_pos += self.pos[1]
+
+		self.rect = self.image.get_rect(topleft=(self.x_pos, self.y_pos))
+		self.text_rect = self.text.get_rect(center=self.rect.center)
