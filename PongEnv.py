@@ -12,27 +12,24 @@ class PongEnv(gym.Env):
         width = self.pong_game.play_area.settings.play_area_width
         height = self.pong_game.play_area.settings.play_area_height
 
-        self.observation_space = Box(low=0, high=255, shape=(width, height, 3), dtype=np.uint8)
-        self.count =0                                 
+        self.observation_space = Box(low=0, high=255, shape=(width, height, 3), dtype=np.uint8)                                
         self.action_space = Discrete(2)
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
         self.render_mode = render_mode
     def step(self,action):
-        self.count += 1 
-        self.pong_game.step(action)
+        self.pong_game.ball.moving = True
+        collision = self.pong_game.step(action)
         info = None 
 
         player1_point = self.pong_game.stats.player1_point
         player2_point = self.pong_game.stats.player2_point
 
-        reward = player1_point - player2_point
+        #reward = player1_point - player2_point
 
-        #terminated = (player1_point >= 1) or (player2_point >= 1)
-        terminated = (self.count > 200)
-        if terminated:
-            print('terminated')
+        terminated = (player1_point >= 1) or (player2_point >= 1)
         info = None
+        reward = int(collision)
 
         obs = self._get_obs()
 
@@ -49,6 +46,7 @@ class PongEnv(gym.Env):
     def reset(self):
         super().reset()
         self.pong_game = pong.Pong()
+        self.pong_game.ball.moving = True
         info = None
 
         if self.render_mode == "human":

@@ -50,7 +50,6 @@ class Pong:
         self.controler1 = Controler(self)
         self.controler1.rect.centery = self.screen.get_rect().centery
         self.controler1.rect.x = self.settings.play_area_positionx + self.settings.play_area_border_larger + 5
-       
 
         # Create the second controller on the right
         self.controler2 = Controler(self)
@@ -113,7 +112,7 @@ class Pong:
             self.controler1.moving_up = False
             self.controler1.moving_down = True
             
-        self.pygame_step()
+        return self.pygame_step()
 
     def run_game(self):
         """Begin the principal ligne of the game."""
@@ -268,6 +267,9 @@ class Pong:
             
             # Calcul de la nouvelle composante verticale de la vitesse en fonction de l'angle d'incidence
             self.ball.velocity[1] = self.settings.ball_initial_speed * math.sin(angle_incidence)
+            return True
+        else :
+            return False
 
     def automat_controler(self, controler):
         """Setting invinsible adversary"""
