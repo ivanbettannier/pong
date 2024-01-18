@@ -3,6 +3,7 @@ from settings import Settings
 import math
 import random
 
+
 class Object:
     """Class for the pong ball"""
 

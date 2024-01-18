@@ -93,9 +93,8 @@ class Pong:
             self.check_collisions(self.controler2)
             self.bonus.bonus_triggering(self.ball)
             self.portal.portal_triggering(self.ball)
-            #Pour Laisser l'IA
-            # self.automat_controler(self.controler1)
-            self.automat_controler(self.controler2)
+            if self.settings.automat_controler == "True":
+                self.automat_controler(self.controler2)
             self._self_update_screen()
             self.clock.tick(60)
             

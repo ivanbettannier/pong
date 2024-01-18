@@ -1,4 +1,8 @@
 import pygame
+import json
+
+with open('game_type.json', 'r') as file:
+    game_type = json.load(file)
 
 class Settings:
     """Class to stock pong's parameters"""
@@ -6,9 +10,12 @@ class Settings:
     def __init__(self):
         "initialize game parameter"
         
+        with open('game_type.json', 'r') as file:
+            game_type = json.load(file)
+
         # define colors
-        self.principal_color = (60, 140, 40)
-        self.secondary_color = (0, 0, 0)
+        self.principal_color = game_type['principal_color']   
+        self.secondary_color = game_type['secondary_color'] 
 
         # screen parameter
         self.screen_width = 800
@@ -16,8 +23,8 @@ class Settings:
         self.bg_color = self.secondary_color
         
         # Play area parameter
-        self.play_area_width = 700
-        self.play_area_height = 300
+        self.play_area_width = game_type['play_area_width']
+        self.play_area_height = game_type['play_area_height']
         self.play_area_positionx = (self.screen_width - self.play_area_width)/2
         self.play_area_positiony = (self.screen_height - self.play_area_height)/2
         self.play_area_color = self.secondary_color
@@ -26,14 +33,16 @@ class Settings:
        
         # controler parameter
         self.controler_width = 5
-        self.controler_height = 50
+        self.controler_height = game_type['controler_height']
         self.controler_color = self.principal_color
-        self.controler_speed = 5
+        self.controler_speed = game_type['controler_speed']
+        self.automat_controler = game_type['automat_controler']
+
         
         # ball parameter
         self.ball_size = 5
         self.ball_color = self.principal_color
-        self.ball_initial_speed = 5
+        self.ball_initial_speed = game_type['ball_initial_speed']
 
         # Score area
         self.scoreboard_width = (self.screen_width + self.play_area_width)/6
