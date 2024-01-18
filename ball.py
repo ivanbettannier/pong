@@ -2,7 +2,7 @@ import pygame
 from settings import Settings
 import math
 import random 
-
+from portal import Portal
 
 class Ball:
     """Class for the pong ball"""
@@ -31,7 +31,7 @@ class Ball:
         # Moving flag
         self.moving = False
 
-        self.portal = pong_game.portal
+        self.portal = Portal(self)
 
     def blitme(self):
         """Draw ball to its current location"""
@@ -68,9 +68,13 @@ class Ball:
         self.velocity[0] = self.settings.ball_initial_speed * math.cos(random_angle)
         self.velocity[1] = self.settings.ball_initial_speed * math.sin(random_angle)
 
-    def change_color(self, new_color):
+    def change_color(self):
         """Change the color of the ball"""
-        self.image.fill((0, 0, 0, 0))  # Effacer l'ancienne couleur
-        pygame.draw.circle(self.image, new_color, (self.radius, self.radius), self.radius)
+        #self.image.fill(new_color)  # Effacer l'ancienne couleur
+        random_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+        pygame.draw.circle(self.image, random_color, (self.radius, self.radius), self.radius)
+        self.blitme()
+        
+        
             
 
