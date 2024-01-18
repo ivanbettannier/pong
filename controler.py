@@ -1,15 +1,13 @@
 import pygame
 from settings import Settings
+from object import Object 
 
-class Controler:
+class Controler(Object):
     """Class for the pong ball"""
 
     def __init__(self, pong_game):
         """Initialize the ball and define its initial position"""
-        self.screen = pong_game.screen
-        self.screen_rect = pong_game.screen.get_rect()
-        self.settings = Settings()
-        
+        super().__init__(pong_game)
         # controler configuration
         self.width = self.settings.controler_width
         self.height = self.settings.controler_height
@@ -37,8 +35,5 @@ class Controler:
             if self.rect.y < self.settings.screen_height -  self.settings.play_area_positiony - self.height - self.settings.play_area_border_larger:
                 self.rect.y += self.speed
     
-    def blitme(self):
-        """Draw ball to its current location"""
-        self.screen.blit(self.image, self.rect)
         
    

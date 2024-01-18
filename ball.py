@@ -2,16 +2,15 @@ import pygame
 from settings import Settings
 import math
 import random 
-from portal import Portal
+from bonus import Portal
+from object import Object
 
-class Ball:
+class Ball(Object):
     """Class for the pong ball"""
 
     def __init__(self, pong_game):
         """Initialize the ball and define its initial position"""
-        self.screen = pong_game.screen
-        self.screen_rect = pong_game.screen.get_rect()
-        self.settings = Settings()
+        super().__init__(pong_game)
         self.velocity = [self.settings.ball_initial_speed,
                          self.settings.ball_initial_speed]
 
@@ -32,10 +31,6 @@ class Ball:
         self.moving = False
 
         self.portal = Portal(self)
-
-    def blitme(self):
-        """Draw ball to its current location"""
-        self.screen.blit(self.image, self.rect)
 
     def update(self):
         if self.moving:

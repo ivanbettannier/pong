@@ -1,15 +1,15 @@
 import pygame
 from settings import Settings
 from game_stats import Game_stats
+from object import Object 
 
-class Scoreboard:
+class Scoreboard(Object):
     """Follow score of the game"""
 
-    def __init__(self, pong):
+    def __init__(self, pong_game):
         """Initialize settings"""
-        self.settings = pong.settings
-        self.screen = pong.screen
-        self.stats = pong.stats
+        super().__init__(pong_game)
+        self.stats = pong_game.stats
     
         # Score board size
         self.scoreboard = pygame.Surface(

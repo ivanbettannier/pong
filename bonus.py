@@ -1,17 +1,16 @@
 import pygame
 from settings import Settings
 import random
+from object import Object
 
 
 
-class Feature:
+class Feature(Object):
     """Class for the pong ball"""
 
     def __init__(self, pong_game, feature_color='Black', feature_position=[0,0]):
         """Initialize the ball and define its initial position"""
-        self.screen = pong_game.screen
-        self.screen_rect = pong_game.screen.get_rect()
-        self.settings = Settings()
+        super().__init__(pong_game)
         self.limit_appearence_time = [100, 200] #"""problème à gérer"""
         self.appearence_time = random.randint(self.limit_appearence_time[0], self.limit_appearence_time[1])
 
@@ -39,11 +38,7 @@ class Feature:
             self.blitme()
             
     
-    def blitme(self):
-        """Draw feature"""
-        
-        self.screen.blit(self.image, self.rect)
-
+ 
    
 
 
