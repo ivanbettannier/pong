@@ -15,6 +15,8 @@ from bonus import Portal_horizon
 import random
 import math
 import numpy as np
+from button import Button
+from game_state_manager import GameStateManager
 
 class Pong:
     """
@@ -38,7 +40,8 @@ class Pong:
         # Create playing area
         self.play_area = Play_area(self)
 
-           
+        # 
+        self.game_state_manager = GameStateManager()   
 
         # Create the ball
         self.ball = Ball(self)
@@ -84,6 +87,7 @@ class Pong:
         #    ball_name = f'ball{i}'
         #    setattr(self, ball_name, Ball_bonus(self))
 
+
   
         
 
@@ -105,11 +109,31 @@ class Pong:
                 self.automat_controler(self.controler2)
             self._self_update_screen()
             self.clock.tick(60)
-            
-            
+            if self._check_events():
+                self.game_state_manager.set_state("menu_principal")
+                self.screen.fill("Black")
+                return "menu" 
+            if self.game_over:
+                game_over_button = Button(
+                image=None,
+                pos=(0,0),
+                anchors={'center', 'center'},
+                text_input="Game Over",
+                font=pygame.font.SysFont(None, 60),
+                base_color="White",
+                hovering_color="White"
+            )
+                game_over_button.apply_anchors(self.settings.screen_width, self.settings.screen_height)
+                game_over_button.update(self.screen)
+                pygame.display.flip()
+                pygame.time.delay(3000)
+                self.screen.fill("Black")
+                self.game_state_manager.set_state("menu_principal")
+                return "menu" 
             
             
     def _check_events(self):
+        MAIN_MOUSE_POS = pygame.mouse.get_pos()
         """Monitor keyboard events"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -121,10 +145,18 @@ class Pong:
                 if self.bonus.bonus_inver_controler == True:
                     self._check_keydown_controler_event_inver(event)
             elif event.type == pygame.KEYUP:
+<<<<<<< HEAD
                 if self.bonus.bonus_inver_controler == False:
                     self._check_keyup_controler_event(event)
                 if self.bonus.bonus_inver_controler == True:
                     self._check_keyup_controler_event_inver(event)
+=======
+                self._check_keyup_controler_event(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if self.BACK_MAIN_MENU.checkForInput(MAIN_MOUSE_POS):
+                    return True
+        return False
+>>>>>>> b1d1191 (menu and game over updated)
 
             
             
@@ -132,6 +164,7 @@ class Pong:
         """Update the screen images and go to the next screen"""
         self.screen.fill(self.bg_color)
         self.play_area.blitme()
+        self.BACK_MAIN_MENU.update(self.screen)
         #self.portal_appear()
         if self.bonus.multi_ball == True:
             self.bonus_multi_ball()
@@ -314,8 +347,27 @@ class Pong:
                 self.ball.velocity[0] = -self.settings.ball_initial_speed
                 self.ball.velocity[1] = self.settings.ball_initial_speed
                 self.stats.count_point(1)
-
+            self.check_game_over()
         pygame.display.flip()
+    def check_game_over(self):
+        if self.stats.player1_point == 1 or self.stats.player2_point == 1:
+            self.game_over = True
+            game_over_button = Button(
+                image=None,
+                pos=(0,0),
+                anchors={'center', 'center'},
+                text_input="Game Over",
+                font=pygame.font.SysFont(None, 60),
+                base_color="White",
+                hovering_color="White"
+            )
+            game_over_button.apply_anchors(self.settings.screen_width, self.settings.screen_height)
+            game_over_button.update(self.screen)
+            pygame.display.flip()
+            pygame.time.delay(3000)  # Affiche le bouton "Game Over" pendant 3 secondes
+            self.game_state_manager.set_state("menu_principal")
+
+
 
 
     

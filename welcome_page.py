@@ -4,6 +4,7 @@ from button import Button
 from settings import Settings
 from pong import Pong
 import json
+from game_state_manager import GameStateManager
 
 with open('game_type.json', 'r') as file:
     game_type = json.load(file)
@@ -392,3 +393,6 @@ def main_menu():
 
 if __name__ == "__main__":
     main_menu()
+    game_state_manager = GameStateManager()
+    while game_state_manager.get_state() == "menu_principal":
+        main_menu(game_state_manager)
