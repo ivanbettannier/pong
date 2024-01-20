@@ -53,12 +53,12 @@ class Settings:
         self.score_font = pygame.font.SysFont(None, 48)
 
         # Bonus
-        self.limit_bonus_appearence_time = [100, 200]
+        self.limit_bonus_appearence_time = [400, 800]
+        self.nomber_bonus_ball = 50
 
         # Portal
-        self.limit_portal_appearence_time = [100, 200]
+        self.limit_portal_appearence_time = [300, 600]
 
-    
         
         
 

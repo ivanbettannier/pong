@@ -11,6 +11,7 @@ from play_area import Play_area
 from scoreboard import Scoreboard
 from bonus import Bonus
 from bonus import Portal
+from bonus import Portal_horizon
 import random
 import math
 import numpy as np
@@ -62,23 +63,26 @@ class Pong:
         self.clock = pygame.time.Clock()    
 
         # Creat bonus
-        self.bonus = Bonus(self)
-        
+        self.bonus = Bonus(self, self.settings.limit_bonus_appearence_time)
+        self.bonus.reinit()
+        self.bonus2 = Bonus(self, [self.settings.limit_portal_appearence_time[0]*3, self.settings.limit_portal_appearence_time[1]*3])
+        self.bonus2.reinit()
+        self.bonus3 = Bonus(self, [self.settings.limit_portal_appearence_time[0]*5, self.settings.limit_portal_appearence_time[1]*5])
+        self.bonus3.reinit()
         # Création du portail
-        self.portal = Portal(self)
+        self.portal = Portal(self, [self.settings.limit_portal_appearence_time[0]*3, self.settings.limit_portal_appearence_time[1]*3])
+        self.portal.reinit()
+        self.portal1 = Portal_horizon(self, self.settings.limit_portal_appearence_time)
+        self.portal1.reinit()
 
+        self.balls = []
+        for i in range(self.settings.nomber_bonus_ball):
+            ball = Ball_bonus(self)  # Créez un nouvel objet de balle
+            self.balls.append(ball)  # Ajoutez la balle à la liste
         # Balles multiplimes bonus 
-        self.ball1 = Ball_bonus(self)
-        self.ball2 = Ball_bonus(self)
-        self.ball3 = Ball_bonus(self)
-        self.ball4 = Ball_bonus(self)
-        self.ball5 = Ball_bonus(self)
-        self.ball6 = Ball_bonus(self)
-        self.ball7 = Ball_bonus(self)
-        self.ball8 = Ball_bonus(self)
-        self.ball9 = Ball_bonus(self)
-        self.ball10 = Ball_bonus(self)
-
+        #for i in range(20):
+        #    ball_name = f'ball{i}'
+        #    setattr(self, ball_name, Ball_bonus(self))
 
   
         
@@ -92,8 +96,11 @@ class Pong:
             self.ball.update()
             self.check_collisions(self.controler1)
             self.check_collisions(self.controler2)
-            self.bonus.bonus_triggering(self.ball)
+            self.bonus.bonus_triggering(self.ball, self.controler1, self.controler2)
+            self.bonus2.bonus_triggering(self.ball, self.controler1, self.controler2)
+            self.bonus3.bonus_triggering(self.ball, self.controler1, self.controler2)
             self.portal.portal_triggering(self.ball)
+            self.portal1.portal_triggering(self.ball)
             if self.settings.automat_controler == "True":
                 self.automat_controler(self.controler2)
             self._self_update_screen()
@@ -109,9 +116,15 @@ class Pong:
                 sys.exit()
             # Moving controler
             elif event.type == pygame.KEYDOWN:
-                self._check_keydown_controler_event(event)
+                if self.bonus.bonus_inver_controler == False:
+                    self._check_keydown_controler_event(event)
+                if self.bonus.bonus_inver_controler == True:
+                    self._check_keydown_controler_event_inver(event)
             elif event.type == pygame.KEYUP:
-                self._check_keyup_controler_event(event)
+                if self.bonus.bonus_inver_controler == False:
+                    self._check_keyup_controler_event(event)
+                if self.bonus.bonus_inver_controler == True:
+                    self._check_keyup_controler_event_inver(event)
 
             
             
@@ -121,14 +134,19 @@ class Pong:
         self.play_area.blitme()
         #self.portal_appear()
         if self.bonus.multi_ball == True:
-            self.bonus.bonus_multi_ball(self.ball1, self.ball2, self.ball3, self.ball4, self.ball5, self.ball6, self.ball7, self.ball8, self.ball9, self.ball10)
+            self.bonus_multi_ball()
+        if self.bonus2.multi_ball == True:
+            self.bonus_multi_ball()
         self.ball.blitme()
         self.scoreboard.blitme()
         self.controler1.blitme()
         self.controler2.blitme()
         #self.bonus_appear(self.ball.moving)
         self.bonus.apperence(self.ball.moving)
+        self.bonus2.apperence(self.ball.moving)
+        self.bonus3.apperence(self.ball.moving)
         self.portal.apperence(self.ball.moving)
+        self.portal1.apperence(self.ball.moving)
         self.scoreboard.prep_score() 
         self.exchange_end()
         
@@ -216,6 +234,44 @@ class Pong:
             controler.rect.y = self.settings.play_area_positiony + self.settings.play_area_border_larger
         elif not controler_hight and controler_low: 
             controler.rect.y = self.settings.screen_height -  self.settings.play_area_positiony - self.settings.controler_height - self.settings.play_area_border_larger
+    
+    def _check_keydown_controler_event_inver(self, event):
+        """Continue moving controler if key is down"""
+        # Controler 1
+        if event.key == pygame.K_DOWN:
+            self.controler1.moving_up = True
+        elif event.key == pygame.K_UP:
+            self.controler1.moving_down = True
+        # Controler 2
+        elif event.key == pygame.K_x:
+            self.controler2.moving_down = True
+        elif event.key == pygame.K_z:
+            self.controler2.moving_down = True
+        # Start a pong exchange
+        elif event.key == pygame.K_SPACE:
+            self.ball.moving = True 
+        # Quit game
+        if event.key == pygame.K_q:
+            sys.exit()
+
+    def _check_keyup_controler_event_inver(self, event):
+        """Stop moving controler if key is up"""
+        # Controler 1
+        if event.key == pygame.K_DOWN:
+            self.controler1.moving_up = False
+        elif event.key == pygame.K_UP:
+            self.controler1.moving_down = False
+        # Controler 2
+        elif event.key == pygame.K_x:
+            self.controler2.moving_up = False
+        elif event.key == pygame.K_z:
+            self.controler2.moving_down = False
+
+    def bonus_multi_ball(self):
+        for ball in self.balls:
+            ball.blitme() 
+            ball.update() 
+
 
     def exchange_end(self):
         player1_point = self.ball.rect.left <= self.settings.play_area_positionx
@@ -224,23 +280,43 @@ class Pong:
             self.ball.rect.center = self.ball.screen_rect.center
             self.ball.moving = False
             self.stats.increment_score = False
+            self.portal.reinit()
+            self.portal1.reinit()
+            self.bonus.reinit()
+            self.bonus.bonus_inver_controler = False
+            self.bonus.multi_ball = False
+            self.bonus.controler_position = False
+            self.bonus.controler_size = False
+            self.bonus.controler_change_position(self.controler1, self.controler2)
+            self.bonus.controler_change_size(self.ball, self.controler1, self.controler2)
+            self.bonus2.reinit()
+            self.bonus2.bonus_inver_controler = False
+            self.bonus2.multi_ball = False
+            self.bonus2.controler_position = False
+            self.bonus2.controler_size = False
+            self.bonus2.controler_change_position(self.controler1, self.controler2)
+            self.bonus2.controler_change_size(self.ball, self.controler1, self.controler2)
+            self.bonus3.reinit()
+            self.bonus3.bonus_inver_controler = False
+            self.bonus3.multi_ball = False
+            self.bonus3.controler_position = False
+            self.bonus3.controler_size = False
+            self.bonus3.controler_change_position(self.controler1, self.controler2)
+            self.bonus3.controler_change_size(self.ball, self.controler1, self.controler2)
             if player1_point:
-                self.bonus.reinit()
-                self.portal.reinit()
                 self.stats.increment_score = True
                 self.ball.velocity[0] = self.settings.ball_initial_speed
                 self.ball.velocity[1] = self.settings.ball_initial_speed
                 self.stats.count_point(2)
                             
             if player2_point:
-                self.bonus.reinit()
-                self.portal.reinit()
                 self.stats.increment_score = True
                 self.ball.velocity[0] = -self.settings.ball_initial_speed
                 self.ball.velocity[1] = self.settings.ball_initial_speed
                 self.stats.count_point(1)
 
         pygame.display.flip()
+
 
     
         

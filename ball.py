@@ -30,16 +30,12 @@ class Ball(Object):
         # Moving flag
         self.moving = False
 
-        self.portal = Portal(self)
 
     def update(self):
         if self.moving:
             # Initial ball direction
             self.rect.x += self.velocity[0]
             self.rect.y += self.velocity[1]
-            # Vérifie si la balle touche le portail
-            if self.portal.rect.colliderect(self.rect):
-                self.portal.handle_collision(self)  
 
             # Inverse horizontal direction
             if self.rect.left < self.settings.play_area_positionx or \
@@ -49,19 +45,6 @@ class Ball(Object):
             # Inverse vertical direction
             if self.rect.top < self.settings.play_area_positiony or self.rect.bottom > self.settings.play_area_height + self.settings.play_area_positiony:
                 self.velocity[1] = -self.velocity[1]
-            
-        
-    def teleport(self):
-        """Téléporte la balle vers une direction aléatoire"""
-        # Réinitialise la position de la balle
-        self.rect.center = self.portal.rect.center
-
-        # Choix aléatoire d'un angle entre 0 et 360 degrés
-        random_angle = math.radians(random.uniform(0, 360))
-
-        # Définition de la nouvelle direction de la balle
-        self.velocity[0] = self.settings.ball_initial_speed * math.cos(random_angle)
-        self.velocity[1] = self.settings.ball_initial_speed * math.sin(random_angle)
 
     def change_color(self):
         """Change the color of the ball"""
@@ -75,32 +58,22 @@ class Ball_bonus(Ball):
     def __init__(self, pong_game):
         """Initialize the ball and define its initial position"""
         super().__init__(pong_game)
-        self.color = [250, 0, 0]
+        self.color = [self.settings.ball_color[0] - 60, self.settings.ball_color[1] - 30, self.settings.ball_color[2] + 50]
+        self.rect.x = self.screen_rect.center[0] + random.uniform(-90, 90)
+        self.rect.y = self.screen_rect.center[1] + random.uniform(-90, 90)
+        #self.speed = random.randint(6, 7)
+        self.velocity[0] = random.choice([-1,1])*(self.velocity[0]) + random.randint(6, 7)
+        self.velocity[1] = random.choice([-1,1])*(self.velocity[1]) + random.randint(6, 7)
         pygame.draw.circle(self.image, self.color, (self.radius, self.radius),
                            self.radius)
         
-    def teleport(self):
-        """Téléporte la balle vers une direction aléatoire"""
-        # Réinitialise la position de la balle
-        #self.rect.center = self.portal.rect.center
-
-        # Choix aléatoire d'un angle entre 0 et 360 degrés
-        random_angle = math.radians(random.uniform(0, 360))
-
-        # Définition de la nouvelle direction de la balle
-        self.velocity[0] = self.settings.ball_initial_speed * math.cos(random_angle)
-        self.velocity[1] = self.settings.ball_initial_speed * math.sin(random_angle)
-        #self.velocity[0] = self.settings.ball_initial_speed 
-        #self.velocity[1] = self.settings.ball_initial_speed
 
     def update(self):
         
         # Initial ball direction
         self.rect.x += self.velocity[0]
         self.rect.y += self.velocity[1]
-        # Vérifie si la balle touche le portail
-        if self.portal.rect.colliderect(self.rect):
-            self.portal.handle_collision(self)
+        
 
         # Inverse horizontal direction
         if self.rect.left < self.settings.play_area_positionx or \
