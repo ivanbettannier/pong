@@ -93,6 +93,16 @@ class Bonus(Feature):
         ball8.update()
         ball9.update()
         ball10.update()
+        ball1.teleport()
+        ball2.teleport()
+        ball3.teleport()
+        ball4.teleport()
+        ball5.teleport()
+        ball6.teleport()
+        ball7.teleport()
+        ball8.teleport()
+        ball9.teleport()
+        ball10.teleport()
 
 class Portal(Feature):
        

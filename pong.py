@@ -4,6 +4,7 @@ import pygame
 from settings import Settings
 from game_stats import Game_stats
 from ball import Ball
+from ball import Ball_bonus
 from controler import Controler
 #from portal import Portal
 from play_area import Play_area
@@ -67,16 +68,16 @@ class Pong:
         self.portal = Portal(self)
 
         # Balles multiplimes bonus 
-        self.ball1 = Ball(self)
-        self.ball2 = Ball(self)
-        self.ball3 = Ball(self)
-        self.ball4 = Ball(self)
-        self.ball5 = Ball(self)
-        self.ball6 = Ball(self)
-        self.ball7 = Ball(self)
-        self.ball8 = Ball(self)
-        self.ball9 = Ball(self)
-        self.ball10 = Ball(self)
+        self.ball1 = Ball_bonus(self)
+        self.ball2 = Ball_bonus(self)
+        self.ball3 = Ball_bonus(self)
+        self.ball4 = Ball_bonus(self)
+        self.ball5 = Ball_bonus(self)
+        self.ball6 = Ball_bonus(self)
+        self.ball7 = Ball_bonus(self)
+        self.ball8 = Ball_bonus(self)
+        self.ball9 = Ball_bonus(self)
+        self.ball10 = Ball_bonus(self)
 
 
   

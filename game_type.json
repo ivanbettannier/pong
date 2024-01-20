@@ -1,1 +1,2 @@
-{"principal_color": [60, 140, 40], "secondary_color": [0, 0, 0], "controler_speed": 5, "ball_initial_speed": 5, "controler_height": 50, "play_area_height": 300, "play_area_width": 700, "automat_controler": "False"}
+{"principal_color": [60, 140, 40], "secondary_color": [0, 0, 0], "controler_speed": 5, "ball_initial_speed": 5, "controler_height": 50, "play_area_height": 300, "play_area_width": 700, "automat_controler": "True"}
+
