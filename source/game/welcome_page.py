@@ -4,13 +4,13 @@ if parent_dir not in sys.path:
     sys.path.append(parent_dir)
 
 import pygame
-from game.button import Button
+from game.object.button import Button
 from game.settings import Settings
 from game.pong import Pong
 import json
 from game.game_state_manager import GameStateManager
 
-with open('game_type.json', 'r') as file:
+with open('../../game_type.json', 'r') as file:
     game_type = json.load(file)
 
 pygame.init()
@@ -28,7 +28,7 @@ second_button_espacement_width = game_settings.screen_width/48
 
 # Returns Press-Start-2P in the desired size (Press-Start-2P = Retro Arcade type font)
 def get_font(size): 
-    return pygame.font.Font("assets/PressStart2P-Regular.ttf", size)
+    return pygame.font.Font("../../assets/PressStart2P-Regular.ttf", size)
 ia_text_width, _ = get_font(int(game_settings.screen_width / 26)).size("DIFFICULTY")
 easy_text_width, _ = get_font(int(game_settings.screen_width / 26)).size("EASY")
 medium_text_width, _ = get_font(int(game_settings.screen_width / 26)).size("MEDIUM")
@@ -286,7 +286,7 @@ def main_menu():
                     
                     if TWO_PLAYERS_BUTTON.base_color == "Green":
                         game_type['automat_controler'] = "False"
-                        with open('game_type.json', 'w') as file:
+                        with open('../../game_type.json', 'w') as file:
                             json.dump(game_type, file)
                         if EASY_IA_BUTTON.base_color == "Green":
                             game_type['controler_speed'] = 5
@@ -346,7 +346,7 @@ def main_menu():
                             if LAVA_BUTTON.base_color == [255, 68, 25]:
                                 game_type['principal_color'] = [128, 36, 123]
                                 game_type['secondary_color'] = [255, 68, 25]
-                    with open('game_type.json', 'w') as file:
+                    with open('../../game_type.json', 'w') as file:
                         json.dump(game_type, file)
                     pong_game = Pong()  # Créez une instance de la classe Pong
                     pong_game.run_game()  # Lancez le jeu
