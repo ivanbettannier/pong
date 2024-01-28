@@ -11,16 +11,16 @@ class Button:
 	"""Class to use button in the game"""
 
 	def __init__(self, image, font, pos, anchors, text_input, base_color, hovering_color):
-		"""Initialize the settings parameters"""
+		"""Initialize the game_settings parameters"""
 
 		pygame.init()
-		self.settings = Settings()
+		self.game_settings = Settings()
 		# Window size
 		self.screen = pygame.display.set_mode(
-			(self.settings.screen_width,
-			 self.settings.screen_height))
+			(self.game_settings.screen_width,
+			 self.game_settings.screen_height))
 		pygame.display.set_caption("[Pont]g")
-		self.bg_color = self.settings.bg_color
+		self.bg_color = self.game_settings.bg_color
 
 		self.image = image
 		self.font = font

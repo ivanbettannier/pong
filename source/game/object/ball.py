@@ -4,7 +4,6 @@ if parent_dir not in sys.path:
     sys.path.append(parent_dir)
 
 import pygame
-from game.settings import Settings
 import math
 import random 
 from game.object.bonus import Portal
@@ -16,12 +15,14 @@ class Ball(Object):
     def __init__(self, pong_game):
         """Initialize the ball and define its initial position"""
         super().__init__(pong_game)
-        self.velocity = [self.settings.ball_initial_speed,
-                         self.settings.ball_initial_speed]
+        self.game_settings = pong_game.settings
+
+        self.velocity = [self.game_settings.ball_initial_speed,
+                         self.game_settings.ball_initial_speed]
 
         # Ball configuration
-        self.radius = self.settings.ball_size
-        self.color = self.settings.ball_color
+        self.radius = self.game_settings.ball_size
+        self.color = self.game_settings.ball_color
 
         # creation of ball surface
         self.image = pygame.Surface((self.radius * 2, self.radius * 2),
@@ -43,12 +44,12 @@ class Ball(Object):
             self.rect.y += self.velocity[1]
 
             # Inverse horizontal direction
-            if self.rect.left < self.settings.play_area_positionx or \
-            self.rect.right > self.settings.play_area_width +\
-            self.settings.play_area_positionx:
+            if self.rect.left < self.game_settings.play_area_positionx or \
+            self.rect.right > self.game_settings.play_area_width +\
+            self.game_settings.play_area_positionx:
                 self.velocity[0] = -self.velocity[0]
             # Inverse vertical direction
-            if self.rect.top < self.settings.play_area_positiony or self.rect.bottom > self.settings.play_area_height + self.settings.play_area_positiony:
+            if self.rect.top < self.game_settings.play_area_positiony or self.rect.bottom > self.game_settings.play_area_height + self.game_settings.play_area_positiony:
                 self.velocity[1] = -self.velocity[1]
 
     def change_color(self):
@@ -63,7 +64,7 @@ class Ball_bonus(Ball):
     def __init__(self, pong_game):
         """Initialize the ball and define its initial position"""
         super().__init__(pong_game)
-        self.color = [self.settings.ball_color[0] - 60, self.settings.ball_color[1] - 30, self.settings.ball_color[2] + 50]
+        self.color = [self.game_settings.ball_color[0] - 60, self.game_settings.ball_color[1] - 30, self.game_settings.ball_color[2] + 50]
         self.rect.x = self.screen_rect.center[0] + random.uniform(-90, 90)
         self.rect.y = self.screen_rect.center[1] + random.uniform(-90, 90)
         #self.speed = random.randint(6, 7)
@@ -81,10 +82,10 @@ class Ball_bonus(Ball):
         
 
         # Inverse horizontal direction
-        if self.rect.left < self.settings.play_area_positionx or \
-        self.rect.right > self.settings.play_area_width +\
-        self.settings.play_area_positionx:
+        if self.rect.left < self.game_settings.play_area_positionx or \
+        self.rect.right > self.game_settings.play_area_width +\
+        self.game_settings.play_area_positionx:
             self.velocity[0] = -self.velocity[0]
         # Inverse vertical direction
-        if self.rect.top < self.settings.play_area_positiony or self.rect.bottom > self.settings.play_area_height + self.settings.play_area_positiony:
+        if self.rect.top < self.game_settings.play_area_positiony or self.rect.bottom > self.game_settings.play_area_height + self.game_settings.play_area_positiony:
             self.velocity[1] = -self.velocity[1]

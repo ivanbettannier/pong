@@ -4,7 +4,7 @@ if parent_dir not in sys.path:
     sys.path.append(parent_dir)
 
 import pygame
-from game.object.button import Button
+from game.button import Button
 from game.settings import Settings
 from game.pong import Pong
 import json

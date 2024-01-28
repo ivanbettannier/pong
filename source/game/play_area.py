@@ -12,9 +12,10 @@ class Play_area():
 
     def __init__(self, pong_game):
         """Initialize the ball and define its initial position"""
-        self.settings = Settings()
-        # Play area size
+        self.settings = pong_game.settings
         self.screen = pong_game.screen
+
+        # Play area size
         self.play_area = pygame.Surface(
             (self.settings.play_area_width, 
              self.settings.play_area_height))

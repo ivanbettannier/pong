@@ -4,7 +4,6 @@ if parent_dir not in sys.path:
     sys.path.append(parent_dir)
 
 import pygame
-from game.settings import Settings
 import random
 from game.object.object import Object
 
@@ -18,7 +17,7 @@ class Feature(Object):
         super().__init__(pong_game)
         self.limit_appearence_time = [100,200]
         self.appearence_time = random.randint(self.limit_appearence_time[0], self.limit_appearence_time[1])
-
+        self.game_settings = pong_game.settings
         # feature copus definitio
         self.color = feature_color
    
@@ -57,9 +56,9 @@ class Bonus(Feature):
         self.limit_appearence_time = limit_bonus_appearence_time
         self.appearence = 0
         self.position = feature_position
-        self.size = self.settings.ball_size*3
-        self.limit_x = [self.settings.play_area_positionx+int(self.settings.play_area_width*(1/6)), self.settings.play_area_positionx+int(self.settings.play_area_width*(5/6))]
-        self.limit_y = [self.settings.play_area_positiony+self.size, self.settings.play_area_positiony+self.settings.play_area_height-self.size]
+        self.size = self.game_settings.ball_size*3
+        self.limit_x = [self.game_settings.play_area_positionx+int(self.game_settings.play_area_width*(1/6)), self.game_settings.play_area_positionx+int(self.game_settings.play_area_width*(5/6))]
+        self.limit_y = [self.game_settings.play_area_positiony+self.size, self.game_settings.play_area_positiony+self.game_settings.play_area_height-self.size]
         self.color = random.choice(['Yellow', 'White', 'Brown', 'Midnightblue'])
         self.multi_ball = False
         self.bonus_inver_controler = False
@@ -105,28 +104,28 @@ class Bonus(Feature):
 
     def controler_change_position(self, controler1, controler2):
         if self.controler_position == True:
-            controler1.rect.x = self.settings.play_area_positionx + self.settings.play_area_border_larger + self.settings.play_area_width*(1/6)
-            controler2.rect.right = self.screen.get_rect().right - self.settings.play_area_positionx - (self.settings.play_area_border_larger + self.settings.play_area_width*(1/6))
+            controler1.rect.x = self.game_settings.play_area_positionx + self.game_settings.play_area_border_larger + self.game_settings.play_area_width*(1/6)
+            controler2.rect.right = self.screen.get_rect().right - self.game_settings.play_area_positionx - (self.game_settings.play_area_border_larger + self.game_settings.play_area_width*(1/6))
         if self.controler_position == False:
-            controler1.rect.x = self.settings.play_area_positionx + self.settings.play_area_border_larger + 5
-            controler2.rect.right = self.screen.get_rect().right - self.settings.play_area_positionx - (self.settings.play_area_border_larger + 5)
+            controler1.rect.x = self.game_settings.play_area_positionx + self.game_settings.play_area_border_larger + 5
+            controler2.rect.right = self.screen.get_rect().right - self.game_settings.play_area_positionx - (self.game_settings.play_area_border_larger + 5)
 
     def controler_change_size(self, ball, controler1, controler2):
         if self.controler_size == True:
             if ball.velocity[0] <= 0:
-                controler1.height = self.settings.controler_height/2
+                controler1.height = self.game_settings.controler_height/2
                 controler1.image = pygame.Surface((controler1.width, controler1.height), pygame.SRCALPHA)
                 pygame.draw.rect(controler1.image, controler1.color, (0, 0, controler1.width, controler1.height))
                 #self.rect = self.image.get_rect()
             if ball.velocity[0] >= 0:
-                controler2.height = self.settings.controler_height/2
+                controler2.height = self.game_settings.controler_height/2
                 controler2.image = pygame.Surface((controler2.width, controler2.height), pygame.SRCALPHA)
                 pygame.draw.rect(controler2.image, controler2.color, (0, 0, controler2.width, controler2.height))
         if self.controler_size == False:
-            controler1.height = self.settings.controler_height
+            controler1.height = self.game_settings.controler_height
             controler1.image = pygame.Surface((controler1.width, controler1.height), pygame.SRCALPHA)
             pygame.draw.rect(controler1.image, controler1.color, (0, 0, controler1.width, controler1.height))
-            controler2.height = self.settings.controler_height
+            controler2.height = self.game_settings.controler_height
             controler2.image = pygame.Surface((controler2.width, controler2.height), pygame.SRCALPHA)
             pygame.draw.rect(controler2.image, controler2.color, (0, 0, controler2.width, controler2.height))
     
@@ -148,9 +147,9 @@ class Portal(Feature):
         """Initialise le feature spécial en appelant le constructeur de la classe mère"""
         super().__init__(pong_game, feature_color, feature_position)
         self.limit_appearence_time = limit_portal_appearence_time
-        self.height = int(self.settings.play_area_height / 7)
-        self.limit_x = [self.settings.play_area_positionx+int(self.settings.play_area_width*(7/16)), self.settings.play_area_positionx+int(self.settings.play_area_width*(9/16))]
-        self.limit_y = [self.settings.play_area_positiony+self.height, self.settings.play_area_positiony+self.settings.play_area_height-self.height]
+        self.height = int(self.game_settings.play_area_height / 7)
+        self.limit_x = [self.game_settings.play_area_positionx+int(self.game_settings.play_area_width*(7/16)), self.game_settings.play_area_positionx+int(self.game_settings.play_area_width*(9/16))]
+        self.limit_y = [self.game_settings.play_area_positiony+self.height, self.game_settings.play_area_positiony+self.game_settings.play_area_height-self.height]
         self.appearence = 0
         self.width = 5
         # Couleur du portail
@@ -166,7 +165,7 @@ class Portal(Feature):
     def portal_triggering(self, ball):
         """Gère la collision entre la balle et le portail"""            
         while self.rect.colliderect(ball.rect):    
-            ball.rect.y = random.randint(self.settings.play_area_positiony+self.height, self.settings.play_area_positiony+self.settings.play_area_height-self.height)
+            ball.rect.y = random.randint(self.game_settings.play_area_positiony+self.height, self.game_settings.play_area_positiony+self.game_settings.play_area_height-self.height)
 
 class Portal_horizon(Portal):
        
@@ -175,10 +174,10 @@ class Portal_horizon(Portal):
         super().__init__(pong_game, feature_color, feature_position)
         self.limit_appearence_time = limit_portal_appearence_time
         self.height = 5
-        self.limit_x = [self.settings.play_area_positionx+int(self.settings.play_area_width*(7/16)), self.settings.play_area_positionx+int(self.settings.play_area_width*(9/16))]
-        self.limit_y = [self.settings.play_area_positiony+self.height, self.settings.play_area_positiony+self.height]
+        self.limit_x = [self.game_settings.play_area_positionx+int(self.game_settings.play_area_width*(7/16)), self.game_settings.play_area_positionx+int(self.game_settings.play_area_width*(9/16))]
+        self.limit_y = [self.game_settings.play_area_positiony+self.height, self.game_settings.play_area_positiony+self.height]
         self.appearence = 0
-        self.width = int(self.settings.play_area_width / 7)
+        self.width = int(self.game_settings.play_area_width / 7)
         # Couleur du portail
         self.color = (255, 0, 0)  # Rouge pour le portail
         # Coordonnées aléatoires du portail
@@ -192,7 +191,7 @@ class Portal_horizon(Portal):
     def portal_triggering(self, ball):
         """Gère la collision entre la balle et le portail"""            
         while self.rect.colliderect(ball.rect):    
-            ball.rect.y = self.settings.play_area_positiony + self.settings.play_area_height - 10
+            ball.rect.y = self.game_settings.play_area_positiony + self.game_settings.play_area_height - 10
 
         
     

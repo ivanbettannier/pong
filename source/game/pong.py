@@ -19,7 +19,7 @@ from game.object.bonus import Portal
 from game.object.bonus import Portal_horizon
 import math
 import numpy as np
-from game.object.button import Button
+from game.button import Button
 from game.game_state_manager import GameStateManager
 
 class Pong:
