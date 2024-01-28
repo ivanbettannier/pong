@@ -18,7 +18,7 @@ class Feature(Object):
         self.limit_appearence_time = [100,200]
         self.appearence_time = random.randint(self.limit_appearence_time[0], self.limit_appearence_time[1])
         self.game_settings = pong_game.settings
-        # feature copus definitio
+        # feature color definitio
         self.color = feature_color
    
     def random_position(self,limit_x, limit_y):

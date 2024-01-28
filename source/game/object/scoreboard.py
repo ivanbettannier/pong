@@ -26,8 +26,6 @@ class Scoreboard(Object):
         # Parameter score text font
         self.text_color = self.game_settings.score_text_color
         self.font = self.game_settings.score_font
-
-        # Initial score picture
        
 
     def blitme(self):
@@ -42,9 +40,5 @@ class Scoreboard(Object):
         self.score2_image = self.font.render(score2_str, True, self.text_color, self.game_settings.bg_color)
         """Draw score"""
         self.screen.blit(self.score1_image, (self.game_settings.scoreboard_positionx+5, self.scoreboard_rect.centery + 5))
-        #self.score1_rect.left = self.scoreboard_rect.left + 5
-        #self.score1_rect.bottom = self.scoreboard_rect.bottom + 5
         self.screen.blit(self.score2_image, (self.game_settings.scoreboard_positionx+self.game_settings.scoreboard_width-25, self.scoreboard_rect.centery + 5))
-        #self.score2_rect.right = self.scoreboard_rect.right + 5
-        #self.score2_rect.bottom = self.scoreboard_rect.bottom + 5
     
