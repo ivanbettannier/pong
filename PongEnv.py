@@ -4,6 +4,9 @@ from gym.spaces import Box, Discrete
 import numpy as np
 import pygame
 
+# Subclass our pong game as a Gym environement.
+#See Gym's documentation for information about what the methods return.
+
 class PongEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 30}
     def __init__(self, render_mode=None):
@@ -19,13 +22,16 @@ class PongEnv(gym.Env):
         self.render_mode = render_mode
     def step(self,action):
         self.pong_game.ball.moving = True
+        
+        #collision indicates whether there was a collision between the ball
+        # and the agent 
         collision = self.pong_game.step(action)
+        
         info = None 
 
         player1_point = self.pong_game.stats.player1_point
         player2_point = self.pong_game.stats.player2_point
 
-        #reward = player1_point - player2_point
 
         terminated = (player1_point >= 1) or (player2_point >= 1)
         info = None
