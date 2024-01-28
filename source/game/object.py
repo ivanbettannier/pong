@@ -1,5 +1,10 @@
+import os, sys
+parent_dir = os.path.abspath('..')
+if parent_dir not in sys.path:
+    sys.path.append(parent_dir)
+
 import pygame
-from settings import Settings
+from game.settings import Settings
 import math
 import random
 

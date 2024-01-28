@@ -1,22 +1,26 @@
+import os, sys
+parent_dir = os.path.abspath('..')
+if parent_dir not in sys.path:
+    sys.path.append(parent_dir)
+
+
 import sys
 from time import sleep
 import pygame
-from settings import Settings
-from game_stats import Game_stats
-from ball import Ball
-from ball import Ball_bonus
-from controler import Controler
-#from portal import Portal
-from play_area import Play_area
-from scoreboard import Scoreboard
-from bonus import Bonus
-from bonus import Portal
-from bonus import Portal_horizon
-import random
+from game.settings import Settings
+from game.game_stats import Game_stats
+from game.ball import Ball
+from game.ball import Ball_bonus
+from game.controler import Controler
+from game.play_area import Play_area
+from game.scoreboard import Scoreboard
+from game.bonus import Bonus
+from game.bonus import Portal
+from game.bonus import Portal_horizon
 import math
 import numpy as np
-from button import Button
-from game_state_manager import GameStateManager
+from game.button import Button
+from game.game_state_manager import GameStateManager
 
 class Pong:
     """

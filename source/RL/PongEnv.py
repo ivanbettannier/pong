@@ -1,4 +1,11 @@
-import pong
+import os, sys
+parent_dir = os.path.abspath('..')
+if parent_dir not in sys.path:
+    sys.path.append(parent_dir)
+from game import pong
+
+
+
 import gym
 from gym.spaces import Box, Discrete
 import numpy as np

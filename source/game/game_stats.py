@@ -1,5 +1,3 @@
-import pygame
-from settings import Settings
 
 class Game_stats:
     """Follow score of the game"""

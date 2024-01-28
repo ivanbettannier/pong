@@ -1,10 +1,14 @@
+import os, sys
+parent_dir = os.path.abspath('..')
+if parent_dir not in sys.path:
+    sys.path.append(parent_dir)
+
 import pygame
-import sys
-from button import Button
-from settings import Settings
-from pong import Pong
+from game.button import Button
+from game.settings import Settings
+from game.pong import Pong
 import json
-from game_state_manager import GameStateManager
+from game.game_state_manager import GameStateManager
 
 with open('game_type.json', 'r') as file:
     game_type = json.load(file)

@@ -1,16 +1,13 @@
 import pygame
 import json
 
-with open('game_type.json', 'r') as file:
-    game_type = json.load(file)
-
 class Settings:
     """Class to stock pong's parameters"""
 
     def __init__(self):
         "initialize game parameter"
         
-        with open('game_type.json', 'r') as file:
+        with open('../../game_type.json', 'r') as file:
             game_type = json.load(file)
 
         # define colors
