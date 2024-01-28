@@ -26,7 +26,6 @@ button_espacement = game_settings.screen_height/6
 button_espacement_width = game_settings.screen_width/48
 second_button_espacement_width = game_settings.screen_width/48
 
-# Returns Press-Start-2P in the desired size (Press-Start-2P = Retro Arcade type font)
 def get_font(size): 
     return pygame.font.Font("../../assets/PressStart2P-Regular.ttf", size)
 ia_text_width, _ = get_font(int(game_settings.screen_width / 26)).size("DIFFICULTY")

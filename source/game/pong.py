@@ -5,7 +5,6 @@ if parent_dir not in sys.path:
 
 
 import sys
-from time import sleep
 import pygame
 from game.settings import Settings
 from game.game_stats import Game_stats
@@ -90,8 +89,10 @@ class Pong:
         #    ball_name = f'ball{i}'
         #    setattr(self, ball_name, Ball_bonus(self))
 
+
     
     def pygame_step(self):
+            """Step in the game"""
             self.controler1.update()
             self.controler2.update()
             self.ball.update()
@@ -108,6 +109,7 @@ class Pong:
             return got_collision
     
     def step(self,action):
+        """Step in the sense of Reinforcment Learing"""
         if action == 0:
             self.controler1.moving_down = False
             self.controler1.moving_up = True
@@ -119,7 +121,7 @@ class Pong:
         return self.pygame_step()
 
     def run_game(self):
-        """Begin the principal ligne of the game."""
+        """Begin the principal loop of the game."""
         while True:
             self._check_events()
             self.pygame_step()
@@ -129,7 +131,11 @@ class Pong:
                 self.screen.fill("Black")
                 return "menu" 
             if self.game_over:
-                game_over_button = Button(
+                self._game_over()
+
+            
+    def _game_over(self):
+        game_over_button = Button(
                 image=None,
                 pos=(0,0),
                 anchors={'center', 'center'},
@@ -138,16 +144,13 @@ class Pong:
                 base_color="White",
                 hovering_color="White"
             )
-                game_over_button.apply_anchors(self.settings.screen_width, self.settings.screen_height)
-                game_over_button.update(self.screen)
-                pygame.display.flip()
-                pygame.time.delay(3000)
-                self.screen.fill("Black")
-                self.game_state_manager.set_state("menu_principal")
-                return "menu" 
+        game_over_button.apply_anchors(self.settings.screen_width, self.settings.screen_height)
+        game_over_button.update(self.screen)
+        pygame.display.flip()
+        pygame.time.delay(3000)
+        self.screen.fill("Black")
+        self.game_state_manager.set_state("menu_principal")
 
-            
-            
     def _check_events(self):
         MAIN_MOUSE_POS = pygame.mouse.get_pos()
         """Monitor keyboard events"""
@@ -161,18 +164,11 @@ class Pong:
                 if self.bonus.bonus_inver_controler == True:
                     self._check_keydown_controler_event_inver(event)
             elif event.type == pygame.KEYUP:
-<<<<<<< HEAD
                 if self.bonus.bonus_inver_controler == False:
                     self._check_keyup_controler_event(event)
                 if self.bonus.bonus_inver_controler == True:
                     self._check_keyup_controler_event_inver(event)
-=======
-                self._check_keyup_controler_event(event)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if self.BACK_MAIN_MENU.checkForInput(MAIN_MOUSE_POS):
-                    return True
-        return False
->>>>>>> b1d1191 (menu and game over updated)
+
 
             
             
@@ -235,26 +231,7 @@ class Pong:
         elif event.key == pygame.K_x:
             self.controler2.moving_down = False
     
-    ### PARTIE ARTHUR 
-    #def check_collisions(self,controler):
-    #    """Colision detection beetween the ball and a controler"""
-    #    if self.ball.rect.colliderect(controler.rect):
-    #        self.ball.velocity[0] = -self.ball.velocity[0]
-      
-    ### PARTIE CAMILLE 1    
-    #def check_collisions(self, controler):
-    #    """Détection de collision entre la balle et un contrôleur"""
-    #    if self.ball.rect.colliderect(controler.rect):
-    #        # Calcul de l'angle d'incidence en radians
-    #        angle_incidence = math.atan2(self.ball.rect.centery - controler.rect.centery,
-    #                                     self.ball.rect.centerx - controler.rect.centerx)
-    #        
-    #        # Inversion de la composante horizontale de la vitesse de la balle
-    #        self.ball.velocity[0] = -self.ball.velocity[0]
-    #        
-    #        # Calcul de la nouvelle composante verticale de la vitesse en fonction de l'angle d'incidence
-    #        self.ball.velocity[1] = self.settings.ball_initial_speed * math.sin(angle_incidence)
-    
+  
     def check_collisions(self, controler):
         """Détection de collision entre la balle et un contrôleur"""
         if self.ball.rect.colliderect(controler.rect):
