@@ -74,14 +74,16 @@ class Pong:
         self.bonus2.reinit()
         self.bonus3 = Bonus(self, [self.settings.limit_portal_appearence_time[0]*5, self.settings.limit_portal_appearence_time[1]*5])
         self.bonus3.reinit()
-        # Création du portail
+        # Create portal
         self.portal = Portal(self, [self.settings.limit_portal_appearence_time[0]*3, self.settings.limit_portal_appearence_time[1]*3])
         self.portal.reinit()
         self.portal1 = Portal_horizon(self, self.settings.limit_portal_appearence_time)
         self.portal1.reinit()
 
+        # Multpiple balls bonus
         self.balls = []
         for i in range(self.settings.nomber_bonus_ball):
+<<<<<<< HEAD
             ball = Ball_bonus(self)  # Créez un nouvel objet de balle
             self.balls.append(ball)  # Ajoutez la balle à la liste
         # Balles multiplimes bonus 
@@ -177,7 +179,6 @@ class Pong:
         self.screen.fill(self.bg_color)
         self.play_area.blitme()
         self.BACK_MAIN_MENU.update(self.screen)
-        #self.portal_appear()
         if self.bonus.multi_ball == True:
             self.bonus_multi_ball()
         if self.bonus2.multi_ball == True:
@@ -186,7 +187,6 @@ class Pong:
         self.scoreboard.blitme()
         self.controler1.blitme()
         self.controler2.blitme()
-        #self.bonus_appear(self.ball.moving)
         self.bonus.apperence(self.ball.moving)
         self.bonus2.apperence(self.ball.moving)
         self.bonus3.apperence(self.ball.moving)
@@ -235,18 +235,18 @@ class Pong:
     def check_collisions(self, controler):
         """Détection de collision entre la balle et un contrôleur"""
         if self.ball.rect.colliderect(controler.rect):
-            # Calcul de l'angle d'incidence en radians
+            # Calculation of the angle of incidence in radians
             angle_incidence = math.atan2(self.ball.rect.centery - controler.rect.centery,
                                          self.ball.rect.centerx - controler.rect.centerx)
             
-            # Si la balle touche le centre du contrôleur, imposer un angle de retour de 15 degrés
+            # If the ball hits the center of the controller, impose a return angle of 15 degrees
             if controler.rect.collidepoint(self.ball.rect.center):
                 angle_incidence = math.radians(35)
             
-            # Inversion de la composante horizontale de la vitesse de la balle
+            # Inversion of the horizontal component of the ball's velocity
             self.ball.velocity[0] = -self.ball.velocity[0]
             
-            # Calcul de la nouvelle composante verticale de la vitesse en fonction de l'angle d'incidence
+            #Calculation of the new vertical component of velocity as a function of the incidence angle
             self.ball.velocity[1] = self.settings.ball_initial_speed * math.sin(angle_incidence)
             return True
         else :
@@ -366,17 +366,6 @@ class Pong:
             self.game_state_manager.set_state("menu_principal")
 
 
-
-
-    
-        
-    
-
-   
-#    def portal_appear(self):
-#        portal_position = self.portal_position
-#        self.portal = Portal(self, portal_position)
-#        self.portal.blitme()
 
 if __name__ == '__main__':
     # create an instance and start a game 

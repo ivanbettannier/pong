@@ -6,8 +6,8 @@ if parent_dir not in sys.path:
 import pygame
 from game.button import Button
 from game.settings import Settings
-from game.pong import Pong
 import json
+from game.pong import Pong
 from game.game_state_manager import GameStateManager
 
 with open('../../game_type.json', 'r') as file:
@@ -347,9 +347,11 @@ def main_menu():
                                 game_type['secondary_color'] = [255, 68, 25]
                     with open('../../game_type.json', 'w') as file:
                         json.dump(game_type, file)
-                    pong_game = Pong()  # Créez une instance de la classe Pong
-                    pong_game.run_game()  # Lancez le jeu
-                #textbook pour chaque form on update l'élément sliders     
+                    
+                    pong_game = Pong() 
+                    pong_game.run_game()  
+
+                #Change colors    
                 elif EASY_IA_BUTTON.checkForInput(MAIN_MOUSE_POS):
                     EASY_IA_BUTTON.base_color = "Green"
                     MEDIUM_IA_BUTTON.base_color = "White"
@@ -389,10 +391,6 @@ def main_menu():
                     SKY_BUTTON.base_color = "White"
                     LAVA_BUTTON.base_color = [255, 68, 25]
         pygame.display.update()
-
-
-
-        
 
 if __name__ == "__main__":
     main_menu()
