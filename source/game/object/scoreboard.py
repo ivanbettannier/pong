@@ -1,12 +1,12 @@
 import os, sys
-parent_dir = os.path.abspath('..')
+parent_dir = os.path.abspath('../..')
 if parent_dir not in sys.path:
     sys.path.append(parent_dir)
 
 import pygame
 from game.settings import Settings
 from game.game_stats import Game_stats
-from game.object import Object 
+from game.object.object import Object 
 
 class Scoreboard(Object):
     """Follow score of the game"""

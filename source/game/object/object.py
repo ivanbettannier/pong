@@ -1,5 +1,5 @@
 import os, sys
-parent_dir = os.path.abspath('..')
+parent_dir = os.path.abspath('../..')
 if parent_dir not in sys.path:
     sys.path.append(parent_dir)
 

@@ -9,17 +9,17 @@ from time import sleep
 import pygame
 from game.settings import Settings
 from game.game_stats import Game_stats
-from game.ball import Ball
-from game.ball import Ball_bonus
-from game.controler import Controler
+from game.object.ball import Ball
+from game.object.ball import Ball_bonus
+from game.object.controler import Controler
 from game.play_area import Play_area
-from game.scoreboard import Scoreboard
-from game.bonus import Bonus
-from game.bonus import Portal
-from game.bonus import Portal_horizon
+from game.object.scoreboard import Scoreboard
+from game.object.bonus import Bonus
+from game.object.bonus import Portal
+from game.object.bonus import Portal_horizon
 import math
 import numpy as np
-from game.button import Button
+from game.object.button import Button
 from game.game_state_manager import GameStateManager
 
 class Pong:

@@ -5,16 +5,16 @@ if parent_dir not in sys.path:
 
 import pygame
 from game.settings import Settings
-from game.object import Object
+from game.object.object import Object
 
-class Play_area(Object):
+class Play_area():
     """Class for the playing area"""
 
     def __init__(self, pong_game):
         """Initialize the ball and define its initial position"""
-        super().__init__(pong_game)
-
+        self.settings = Settings()
         # Play area size
+        self.screen = pong_game.screen
         self.play_area = pygame.Surface(
             (self.settings.play_area_width, 
              self.settings.play_area_height))
